@@ -1,9 +1,10 @@
-     "use strict";
+//profe, el .js esta basado en un video de youtube -> https://youtu.be/tscf35hDL0U
+"use strict";//modo estricto para el navegador 
 function qs(selector, all = false) {
   return all ? document.querySelectorAll(selector) : document.querySelector(selector);
 }
-
-const sections = qs('.section', true);
+//variables para las partes que se mueven en la animacion de la linea
+const sections = qs('.section', true); 
 const timeline = qs('.timeline');
 const line = qs('.line');
 line.style.bottom = `calc(100% - 20px)`;
@@ -12,7 +13,6 @@ let up, down;
 let full = false;
 let set = 0;
 const targetY = window.innerHeight * .8;
-
 function scrollHandler(e) {
   const {
     scrollY
@@ -20,11 +20,11 @@ function scrollHandler(e) {
   up = scrollY < prevScrollY;
   down = !up;
   const timelineRect = timeline.getBoundingClientRect();
-  const lineRect = line.getBoundingClientRect(); // const lineHeight = lineRect.bottom - lineRect.top;
+  const lineRect = line.getBoundingClientRect(); 
 
-  const dist = targetY - timelineRect.top;
+  const dist = targetY - timelineRect.top; // Altura de la linea se calcula con la resta de la linea de abajo menos la linea de arriba
   console.log(dist);
-
+//si esta el scroll hasta abajo y la linea no esta llena la crecemos
   if (down && !full) {
     set = Math.max(set, dist);
     line.style.bottom = `calc(100% - ${set}px)`;
@@ -36,17 +36,14 @@ function scrollHandler(e) {
   }
 
   sections.forEach(item => {
-    // console.log(item);
-    const rect = item.getBoundingClientRect(); //     console.log(rect);
-
+    const rect = item.getBoundingClientRect(); 
     if (rect.top + item.offsetHeight / 5 < targetY) {
       item.classList.add('show-me');
     }
-  }); // console.log(up, down);
+  }); 
 
   prevScrollY = window.scrollY;
 }
-
 scrollHandler();
 line.style.display = 'block';
 window.addEventListener('scroll', scrollHandler);
